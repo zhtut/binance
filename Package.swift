@@ -8,8 +8,8 @@ var tDependencies = [PackageDescription.Target.Dependency]()
 
 pDependencies += [
     .package(url: "https://github.com/zhtut/Networking.git", branch: "main"),
-//    .package(url: "https://github.com/zhtut/UtilCore.git", branch: "main"),
-    .package(path: "../UtilCore"),
+    .package(url: "https://github.com/zhtut/UtilCore.git", branch: "main"),
+//    .package(path: "../UtilCore"),
     .package(url: "https://github.com/zhtut/SSEncrypt.git", branch: "main"),
 ]
 tDependencies += [
