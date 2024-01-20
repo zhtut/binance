@@ -15,7 +15,7 @@ import Combine
 #endif
 
 /// 现货账户和订单的websocket
-open class AccountWebSocket: NSObject {
+open class AccountWebSocket: CombineBase {
     
     /// 设计成单例，一直存在
     public static let shared = AccountWebSocket()
@@ -30,10 +30,10 @@ open class AccountWebSocket: NSObject {
         
         // 监听事件
         ws.onDataPublisher
-            .sink { data in
-                self.processData(data)
+            .sink { [weak self] data in
+                self?.processData(data)
             }
-            .store(in: &subscriptionSet)
+            .store(in: &subscriptions)
         
         // 开始连接
         open()

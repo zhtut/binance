@@ -14,7 +14,7 @@ import Combine
 #endif
 import UtilCore
 
-open class BAWebSocket: NSObject {
+open class BAWebSocket: CombineBase {
     
     public var ws = WebSocket()
     
@@ -37,7 +37,7 @@ open class BAWebSocket: NSObject {
             if let str = String(data: data, encoding: .utf8) {
               print("收到数据：\(str)")
             }
-        }.store(in: &subscriptionSet)
+        }.store(in: &subscriptions)
     }
     
     open func open() {

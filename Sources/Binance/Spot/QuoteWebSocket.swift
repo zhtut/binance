@@ -15,7 +15,7 @@ import Combine
 #endif
 
 /// 行情websocket
-open class QuoteWebSocket: NSObject {
+open class QuoteWebSocket: CombineBase {
     
     /// websocket连接
     public var ws = WebSocket()
@@ -28,10 +28,10 @@ open class QuoteWebSocket: NSObject {
         
         // 监听事件
         ws.onDataPublisher
-            .sink { data in
-                self.processData(data)
+            .sink { [weak self] data in
+                self?.processData(data)
             }
-            .store(in: &subscriptionSet)
+            .store(in: &subscriptions)
         
         // 开始连接
         open()

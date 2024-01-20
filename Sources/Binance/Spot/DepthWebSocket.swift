@@ -15,7 +15,7 @@ import Combine
 #endif
 
 /// 深度websocket
-open class DepthWebSocket: NSObject {
+open class DepthWebSocket: CombineBase {
     
     public struct DepthPrice {
         var price: String
@@ -43,10 +43,10 @@ open class DepthWebSocket: NSObject {
         
         // 监听事件
         ws.onDataPublisher
-            .sink { data in
-                self.processData(data)
+            .sink { [weak self] data in
+                self?.processData(data)
             }
-            .store(in: &subscriptionSet)
+            .store(in: &subscriptions)
         
         // 开始连接
         open()
