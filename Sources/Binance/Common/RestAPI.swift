@@ -17,12 +17,14 @@ public struct RestAPI {
     public static func post(path: String,
                             params: Any? = nil,
                             dataKey: String = "data",
-                            dataClass: Decodable.Type? = nil) async throws -> BAResponse {
+                            dataClass: Decodable.Type? = nil,
+                            printLog: Bool = false) async throws -> BAResponse {
         let res = await send(path: path,
                              params: params,
                              method: .POST,
                              dataKey: dataKey,
-                             dataClass: dataClass)
+                             dataClass: dataClass,
+                             printLog: printLog)
         if res.succeed {
             return res
         } else {
@@ -34,12 +36,14 @@ public struct RestAPI {
     public static func get(path: String,
                            params: Any? = nil,
                            dataKey: String = "data",
-                           dataClass: Decodable.Type? = nil) async throws -> BAResponse {
+                           dataClass: Decodable.Type? = nil,
+                           printLog: Bool = false) async throws -> BAResponse {
         let res = await send(path: path,
                              params: params,
                              method: .GET,
                              dataKey: dataKey,
-                             dataClass: dataClass)
+                             dataClass: dataClass,
+                             printLog: printLog)
         if res.succeed {
             return res
         } else {
@@ -53,7 +57,8 @@ public struct RestAPI {
                             params: Any? = nil,
                             method: HTTPMethod = .GET,
                             dataKey: String = "data",
-                            dataClass: Decodable.Type? = nil) async -> BAResponse {
+                            dataClass: Decodable.Type? = nil,
+                            printLog: Bool = false) async -> BAResponse {
         var newMethod = method
         var newPath = path
         
@@ -114,12 +119,10 @@ public struct RestAPI {
         headerFields["X-MBX-APIKEY"] = APIConfig.apiKey
         headerFields["Accept"] = "application/json"
         
-        let print = false
-        
         let response = await Session.shared.send(request: .init(path: urlStr,
                                                                 method: newMethod,
                                                                 header: headerFields,
-                                                                printLog: print,
+                                                                printLog: printLog,
                                                                 dataKey: dataKey,
                                                                 modelType: dataClass))
         let baRes = BAResponse(res: response)
